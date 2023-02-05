@@ -20,12 +20,16 @@ function App() {
   const formRef = useRef();
  
   const addTask = () => {
-    if(newTitle == null) return
+    if(newTitle == null || newDescription == null) return
     const newDate = Date.now();
     saveTask(newTitle, newDescription, false, newDate);
     setTodos(todos, {title: newTitle, description: newDescription, completed: false, date: newDate})
     formRef.current.reset();
+    setDescription(null)
+    setTitle(null)
   } 
+
+
 
   useEffect(() => {
     onSnapshot(usersCollectionRef, (snapshot) => {
