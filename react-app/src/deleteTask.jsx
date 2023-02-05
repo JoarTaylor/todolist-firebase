@@ -1,5 +1,8 @@
 import React from 'react'
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from './firebase.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+
 
 export default function DeleteTask({todo}) {
 
@@ -10,7 +13,7 @@ export default function DeleteTask({todo}) {
 
   return (
     <div>
-        <button onClick={handleDelete}>Delete</button>
+        <FontAwesomeIcon onClick={handleDelete} icon={faTrashCan} />
     </div>
   )
 }

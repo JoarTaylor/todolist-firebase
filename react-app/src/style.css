@@ -1,7 +1,7 @@
-.personContainer {
-    display: flex;
+.todo * {
+    margin: 0.5vh;
 }
 
-.blueclass {
-    background-color: blue;
+.formContainer * {
+    margin: 0.5 vh
 }
