@@ -15,17 +15,27 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
-
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
+/* const firebaseConfig = {
   apiKey: "AIzaSyACNZxTVm5wDle2t91sOMCJdTZinL-yuIE",
   authDomain: "todolist-firebase-65525.firebaseapp.com",
   projectId: "todolist-firebase-65525",
   storageBucket: "todolist-firebase-65525.appspot.com",
   messagingSenderId: "734615195081",
   appId: "1:734615195081:web:239547bbc59c2a5583ac18"
+}; */
+
+
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyB-Uhs8ba71383P3gWuRHS3Q5LPHHiGQ64",
+  authDomain: "fire-app-react.firebaseapp.com",
+  projectId: "fire-app-react",
+  storageBucket: "fire-app-react.appspot.com",
+  messagingSenderId: "859447417753",
+  appId: "1:859447417753:web:8bff5e738c8db762715108"
 };
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
@@ -43,13 +53,14 @@ export const usersCollectionRef = collection(db, "tasks");
  * @param {string} title uppgiftens titel
  * @param {string} description beskrivning av uppgift
  */
-export const saveTask = (title, description, completed) =>
-  addDoc(collection(db, "tasks"), { title, description, completed });
+export const saveTask = (title, description, completed, date) =>
+  addDoc(collection(db, "tasks"), { title, description, completed, date });
   
 
 // Lyssnar på förändringar och uppdaterar dem i collection
 export const onGetTasks = (callback) =>
   onSnapshot(collection(db, "tasks"), callback);
+
 
 /**
  * Tar bort en ny uppgift 
