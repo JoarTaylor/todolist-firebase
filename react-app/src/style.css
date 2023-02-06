@@ -5,3 +5,15 @@
 .formContainer * {
     margin: 0.5 vh
 }
+
+.heh {
+    background-color: black;
+}
+
+.show {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}

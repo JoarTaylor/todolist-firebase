@@ -4,7 +4,7 @@ import UpdateTask from './updateTask'
 import { useState, useRef, useEffect } from 'react'
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from './firebase.jsx'
 
-export default function Todo({todo, newTitle, newDescription, setTitle, setDescription, formRef}) {
+export default function Todo({inputDialog, todo, newTitle, newDescription, setTitle, setDescription, formRef}) {
 
   const [taskCompleted, setCompleted] = useState(true);
   const myCheckbox = useRef()
@@ -13,6 +13,7 @@ export default function Todo({todo, newTitle, newDescription, setTitle, setDescr
   const handleCheck = () => {
     taskCompleted ? setCompleted(false) : setCompleted(true);
     updateTask(todo.id, {title: todo.title, description: todo.description, completed: taskCompleted});
+    console.log(todo)
   }
 
 
@@ -20,7 +21,7 @@ export default function Todo({todo, newTitle, newDescription, setTitle, setDescr
     <div className='todo' style={{display: 'flex', margin: '5vh'}}>
         <input ref={myCheckbox} type="checkbox" checked={todo.completed} onChange={handleCheck}/>
         <DeleteTask todo={todo}/>
-        <UpdateTask formRef={formRef} newTitle = {newTitle} newDescription={newDescription} todo={todo} setTitle={setTitle} setDescription={setDescription} />
+        <UpdateTask inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle} newDescription={newDescription} todo={todo} setTitle={setTitle} setDescription={setDescription}/>
         <div>Title: {todo.title}</div>
         <div>Description: {todo.description}</div>
     </div>
