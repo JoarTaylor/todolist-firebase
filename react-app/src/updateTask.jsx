@@ -31,7 +31,6 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
         }
         else {
             updateTask(todo.id, {title: newTitle, description: newDescription, completed: todo.completed})
-            console.log(todo)
         }
         updateFormRef.current.reset();
         setDescription(null)

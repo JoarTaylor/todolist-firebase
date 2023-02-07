@@ -39,13 +39,11 @@ function App() {
     inputDialog.close()
   } 
 
-
   useEffect(() => {
     onSnapshot(usersCollectionRef, (snapshot) => {
       setTodos(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
     })
   }, [])
-
 
   const clearCompleted = async () => {
     const q = query(usersCollectionRef , where('completed', '==', true));
@@ -53,32 +51,31 @@ function App() {
     dataSnap.docs.forEach(doc => (deleteTask(doc.id)))
   }
 
-
- 
- 
   return (
     <>
     <h1 style={{textAlign: 'center'}}>Todo-app</h1>
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-        <dialog className='input-dialog'>
-          <div className='dialog-content'>
-            <form className='input-form' ref={formRef} action="">
-                <input placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>
-                <textarea className='description-input' placeholder='Description...' type="text" onChange={(event) => {setDescription(event.target.value)}}/>
-            </form>
-            <div className='input-button-wrapper'>
+    <div style={{display: 'flex', justifyContent: 'center'}}>
+      <button icon={faPlus} onClick={addTask}>Add todo</button>
+      <button onClick={clearCompleted}>Clear completed</button>
+    </div>
+    <div style={{textAlign: 'center'}}>Todos left to do: {todos.filter(todo => !todo.completed).length}</div>
+    <div style={{display: 'flex', justifyContent: 'center'}}>
+      <dialog className='input-dialog'>
+        <div className='dialog-content'>
+          <form className='input-form' ref={formRef} action="">
+              <input className='title-input' placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>
+              <textarea className='description-input' placeholder='Description...' type="text" onChange={(event) => {setDescription(event.target.value)}}/>
+          </form>
+          <div className='input-button-wrapper'>
             <button className='cancel-btn' onClick={() => {inputDialog.close()}}>Cancel</button>
             <button className='add-btn' onClick={submitTask}>Add</button>
-            </div>
           </div>
-        </dialog>
-        <FontAwesomeIcon icon={faPlus} onClick={addTask}>Add</FontAwesomeIcon>
-      </div>
+        </div>
+      </dialog>
+    </div>
+    <div className='todos-container'>
       <TodoList inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle}newDescription={newDescription} setTitle={setTitle} setDescription={setDescription} todos={todos} />
-      <div>Todos left to do: {todos.filter(todo => !todo.completed).length}</div>
-      
-    
-       {<button onClick={clearCompleted}>Clear completed</button> }
+      </div>
     </>
   )
 }

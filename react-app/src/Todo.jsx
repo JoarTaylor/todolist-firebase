@@ -17,7 +17,7 @@ export default function Todo({inputDialog, todo, newTitle, newDescription, setTi
 
 
   return (
-    <div className='todo' style={{display: 'flex', margin: '5vh'}}>
+    <div className='todo' style={{display: 'flex', margin: '5vh', justifyContent: 'center'}}>
         <input ref={myCheckbox} type="checkbox" checked={todo.completed} onChange={handleCheck}/>
         <DeleteTask todo={todo}/>
         <UpdateTask inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle} newDescription={newDescription} todo={todo} setTitle={setTitle} setDescription={setDescription}/>
