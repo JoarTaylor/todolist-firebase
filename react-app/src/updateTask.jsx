@@ -12,8 +12,6 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
 
     const openUpdateDialog = () => {
         setShowing(!isShowing)
-       /*  document.querySelector('.update-dialog').showModal() */
-        console.log(todo.id, todo.title, todo.description)
         titleRef.current.value = todo.title;
         descRef.current.value = todo.description;
       }
@@ -38,7 +36,6 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
         updateFormRef.current.reset();
         setDescription(null)
         setTitle(null)
-        /* document.querySelector('.update-dialog').close() */
     }
 
   return (

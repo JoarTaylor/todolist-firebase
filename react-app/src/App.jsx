@@ -19,13 +19,17 @@ function App() {
   const [newDescription, setDescription] = useState();
   const formRef = useRef();
   const inputDialog = document.querySelector('.input-dialog');
+  const [emptyField, setEmptyField] = useState(false);
 
   const addTask = () => {
     inputDialog.showModal()
   }
  
   const submitTask = () => {
-    if(newTitle == null || newDescription == null) return
+    if(newTitle == null) {
+      alert('Title must be filled out')
+      return
+    }
     const newDate = Date.now();
     saveTask(newTitle, newDescription, false, newDate);
     setTodos(todos, {title: newTitle, description: newDescription, completed: false, date: newDate})
@@ -48,6 +52,8 @@ function App() {
     const dataSnap = await getDocs(q)
     dataSnap.docs.forEach(doc => (deleteTask(doc.id)))
   }
+
+
  
  
   return (
@@ -55,12 +61,16 @@ function App() {
     <h1 style={{textAlign: 'center'}}>Todo-app</h1>
       <div style={{display: 'flex', justifyContent: 'center'}}>
         <dialog className='input-dialog'>
-          <form ref={formRef} action="">
-              <input placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>
-              <input placeholder='Description...' type="text" onChange={(event) => {setDescription(event.target.value)}}/>
-          </form>
-          <button onClick={submitTask}>Submit</button>
-          <FontAwesomeIcon icon={faClose} onClick={() => {inputDialog.close()}}></FontAwesomeIcon>
+          <div className='dialog-content'>
+            <form className='input-form' ref={formRef} action="">
+                <input placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>
+                <textarea className='description-input' placeholder='Description...' type="text" onChange={(event) => {setDescription(event.target.value)}}/>
+            </form>
+            <div className='input-button-wrapper'>
+            <button className='cancel-btn' onClick={() => {inputDialog.close()}}>Cancel</button>
+            <button className='add-btn' onClick={submitTask}>Add</button>
+            </div>
+          </div>
         </dialog>
         <FontAwesomeIcon icon={faPlus} onClick={addTask}>Add</FontAwesomeIcon>
       </div>

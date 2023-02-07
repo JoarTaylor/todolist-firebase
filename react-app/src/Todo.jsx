@@ -13,7 +13,6 @@ export default function Todo({inputDialog, todo, newTitle, newDescription, setTi
   const handleCheck = () => {
     taskCompleted ? setCompleted(false) : setCompleted(true);
     updateTask(todo.id, {title: todo.title, description: todo.description, completed: taskCompleted});
-    console.log(todo)
   }
 
 
