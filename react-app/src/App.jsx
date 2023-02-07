@@ -75,7 +75,7 @@ function App() {
     </div>
     <div className='todos-container'>
       <TodoList inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle}newDescription={newDescription} setTitle={setTitle} setDescription={setDescription} todos={todos} />
-      </div>
+    </div>
     </>
   )
 }
