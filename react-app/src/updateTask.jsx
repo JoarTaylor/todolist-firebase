@@ -1,6 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import React, { useRef, useState } from 'react'
+import { FaEdit } from 'react-icons/fa';
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from './firebase.jsx'
 
 export default function UpdateTask({ newTitle, newDescription, setTitle, setDescription, todo, formRef}) {
@@ -17,20 +16,22 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
       }
 
     const submitUpdate = () => {
+        const updatedTime = Date.now();
         setShowing(!isShowing)
         let title = null;
         let desc = null;
         if(newTitle == null && newDescription != null) {
             title = todo.title;
-            updateTask(todo.id, {title: title, description: newDescription, completed: todo.completed})
+            updateTask(todo.id, {title: title, description: newDescription, completed: todo.completed, date: updatedTime})
         } else if (newDescription == null && newTitle != null) {
             desc = todo.description; 
-            updateTask(todo.id, {title: newTitle, description: desc, completed: todo.completed})
+            updateTask(todo.id, {title: newTitle, description: desc, completed: todo.completed, date: updatedTime})
         } else if(newDescription == null && newTitle == null) {
             updateTask(todo.id, {title: todo.title, description: todo.description, completed: todo.completed})
+            return
         }
         else {
-            updateTask(todo.id, {title: newTitle, description: newDescription, completed: todo.completed})
+            updateTask(todo.id, {title: newTitle, description: newDescription, completed: todo.completed, date: updatedTime})
         }
         updateFormRef.current.reset();
         setDescription(null)
@@ -39,7 +40,7 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
 
   return (
     <>
-    <FontAwesomeIcon icon={faEdit} onClick={openUpdateDialog}>Edit</FontAwesomeIcon>
+    <div onClick={openUpdateDialog}><FaEdit/></div>
     <div className={isShowing ? 'show' : 'hidden'}>
           <form ref={updateFormRef} action="">
               <input ref={titleRef} placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>

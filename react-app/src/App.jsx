@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import TodoList from './TodoList'
 import { onSnapshot, query, where, getDocs } from 'firebase/firestore'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faClose } from '@fortawesome/free-solid-svg-icons'
 
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from './firebase.jsx'
 import './style.css'
@@ -19,7 +17,6 @@ function App() {
   const [newDescription, setDescription] = useState();
   const formRef = useRef();
   const inputDialog = document.querySelector('.input-dialog');
-  const [emptyField, setEmptyField] = useState(false);
 
   const addTask = () => {
     inputDialog.showModal()
@@ -51,11 +48,20 @@ function App() {
     dataSnap.docs.forEach(doc => (deleteTask(doc.id)))
   }
 
+  const toggleTodosDone = async () => {
+    const q = query(usersCollectionRef , where('completed', '!=', true));
+    const dataSnap = await getDocs(q)
+    dataSnap.docs.forEach(doc => {
+      updateTask(doc.id, {completed: true})
+    })
+  }
+
   return (
     <>
     <h1 style={{textAlign: 'center'}}>Todo-app</h1>
     <div style={{display: 'flex', justifyContent: 'center'}}>
-      <button icon={faPlus} onClick={addTask}>Add todo</button>
+      <button onClick={addTask}>Add todo</button>
+      <button onClick={toggleTodosDone}>Mark all as done</button>
       <button onClick={clearCompleted}>Clear completed</button>
     </div>
     <div style={{textAlign: 'center'}}>Todos left to do: {todos.filter(todo => !todo.completed).length}</div>

@@ -45,7 +45,7 @@
 }
 
 .input-dialog {
-    width: 30vw;
+    width: 20vw;
     border-radius: 10px;
     border: none;
     background-color: #cecdcd;
@@ -121,6 +121,3 @@
     background-color: rgb(243, 242, 242);
 }
 
-.delete-todo-btn:hover {
-    color: red;
-}
