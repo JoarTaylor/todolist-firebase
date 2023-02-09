@@ -2,35 +2,12 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.todo  {
-    width: 40vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #cecdcd;
-    margin: 2vh;
-}
-
-.edit-todo-btns {
-    display: flex;
-    justify-content: end;
-}
-
-.todo-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
 .edit-todo-btns > * {
     padding: 0.2rem;
 }
 
-.todo-content-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+
 
 .formContainer * {
     margin: 0.5 vh

@@ -1,10 +1,16 @@
 import React from 'react'
-import DeleteTask from './components/deletetask/deleteTask'
-import UpdateTask from './updateTask'
+import DeleteTask from '../deletetask/deleteTask'
+import UpdateTask from '../../updateTask'
 import { useState, useRef, useEffect } from 'react'
-import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from './firebase.jsx'
-import './style.css'
-import Timestamp from './components/deletetask/timestap/Time'
+import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
+import '../../style.css'
+import Timestamp from '../deletetask/timestap/Time'
+import { 
+TodoContainer, 
+TodoHeader,
+ContentWrapper,
+TodoBtns
+} from './todocss'
 
 
 export default function Todo({inputDialog, todo, newTitle, newDescription, setTitle, setDescription, formRef}) {
@@ -20,20 +26,19 @@ export default function Todo({inputDialog, todo, newTitle, newDescription, setTi
 
 
   return (
-    <div className='todo'>
-      <div className="todo-header">
+    <TodoContainer>
+      <TodoHeader>
           <div>{todo.title}</div>
-          <div className="edit-todo-btns">
+          <TodoBtns>
             <Timestamp todo={todo}></Timestamp>
             <input ref={myCheckbox} type="checkbox" checked={todo.completed} onChange={handleCheck}/>
             <DeleteTask todo={todo}/>
             <UpdateTask inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle} newDescription={newDescription} todo={todo} setTitle={setTitle} setDescription={setDescription}/>
-          </div>
-      </div>
-      <div className="todo-content-wrapper">
-        
+          </TodoBtns>
+      </TodoHeader>
+      <ContentWrapper>
         <div>{todo.description}</div>
-      </div>
-    </div>
+      </ContentWrapper>
+    </TodoContainer>
   )
 }

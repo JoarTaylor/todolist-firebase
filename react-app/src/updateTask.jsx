@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { FaEdit } from 'react-icons/fa';
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from './firebase.jsx'
 
-export default function UpdateTask({ newTitle, newDescription, setTitle, setDescription, todo, formRef}) {
+export default function UpdateTask({ newTitle, newDescription, setTitle, setDescription, todo}) {
 
     const updateFormRef = useRef();
     const titleRef = useRef();
