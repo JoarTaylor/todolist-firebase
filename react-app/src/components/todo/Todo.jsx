@@ -1,10 +1,9 @@
 import React from 'react'
 import DeleteTask from '../deletetask/deleteTask'
-import UpdateTask from '../../updateTask'
+import UpdateTask from '../updatetodo/updateTask'
 import { useState, useRef, useEffect } from 'react'
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
-import '../../style.css'
-import Timestamp from '../deletetask/timestap/Time'
+import Timestamp from '../timestap/Time'
 import { 
 TodoContainer, 
 TodoHeader,

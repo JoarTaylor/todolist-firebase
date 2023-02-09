@@ -1,5 +1,5 @@
 import React from 'react'
-import Todo from './components/todo/Todo.jsx'
+import Todo from '../todo/Todo.jsx'
 
 
 

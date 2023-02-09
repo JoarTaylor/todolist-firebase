@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { FaEdit } from 'react-icons/fa';
-import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from './firebase.jsx'
+import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
+import { UpdateForm, FormContainer } from './updatestyle.js';
+
 
 export default function UpdateTask({ newTitle, newDescription, setTitle, setDescription, todo}) {
 
@@ -14,6 +16,10 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
         titleRef.current.value = todo.title;
         descRef.current.value = todo.description;
       }
+
+    const cancelUpdate = () => {
+        setShowing(!isShowing)
+    }
 
     const submitUpdate = () => {
         const updatedTime = Date.now();
@@ -41,13 +47,14 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
   return (
     <>
     <div onClick={openUpdateDialog}><FaEdit/></div>
-    <div className={isShowing ? 'show' : 'hidden'}>
-          <form ref={updateFormRef} action="">
-              <input ref={titleRef} placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>
+    <FormContainer isShowing={isShowing}>
+          <UpdateForm ref={updateFormRef} action="">
+              <input ref={titleRef} type="text" onChange={(event) => {setTitle(event.target.value)}}/>
               <input ref={descRef} placeholder='Description...' type="text" onChange={(event) => {setDescription(event.target.value)}}/>
-          </form>
-          <button  onClick={submitUpdate}>Submit</button>
-    </div>
+          </UpdateForm>
+          <button onClick={submitUpdate}>Submit</button>
+          <button onClick={cancelUpdate}>Cancel</button>
+    </FormContainer>
     </>
   )
 }
