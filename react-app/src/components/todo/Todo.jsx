@@ -25,7 +25,6 @@ export default function Todo({inputDialog, todo, newTitle, newDescription, setTi
     const user = auth.currentUser;
     console.log(todo.id)
     taskCompleted ? setCompleted(false) : setCompleted(true);
-    /* updateTask(todo.id, {title: todo.title, description: todo.description, completed: taskCompleted}); */
     await updateDoc(doc(db, 'users', user.uid, 'todos', todo.id), {title: todo.title, description: todo.description, completed: taskCompleted});
   }
 
