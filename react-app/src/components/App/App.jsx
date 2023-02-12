@@ -1,15 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import TodoList from '../todolist/TodoList'
-import { onSnapshot, query, where, getDocs } from 'firebase/firestore'
+import { onSnapshot, query, where, getDocs, setDoc, doc, addDoc, collection } from 'firebase/firestore'
 /* import Navbar from '../navbar/Navbar' */
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { UserNav, StyledLink } from '../navbar/navbarcss';
 import SignIn from '../signin/Signin';
 import Register from '../Register/register';
 import { auth } from '../../firebase.jsx'
-import { signOut, getAuth, deleteUser } from 'firebase/auth';
-import { onAuthStateChanged } from 'firebase/auth'
+import { signOut, getAuth, deleteUser, onAuthStateChanged  } from 'firebase/auth';
 import { 
   ButtonContainer,
    InputDialog, 
@@ -21,7 +20,6 @@ import {
   GlobalStyle
  } from './appstyles.js'
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
-import { async } from '@firebase/util';
 
 
 function App() {
@@ -33,7 +31,7 @@ function App() {
   const inputDialog = document.querySelector('.input-dialog');
   const [allDone, setAlldone] = useState(false);
   const [user, setUser] = useState({})
-  const [signedIn, setSignedIn] = useState(false)
+  const [signedIn, setSignedIn] = useState(false);
 
   const signout = async () => {
     signOut(auth)
@@ -67,9 +65,13 @@ function App() {
       alert('Title must be filled out')
       return
     }
+
+    const auth = getAuth();
+    const user = auth.currentUser;
     const newDate = Date.now();
-    saveTask(newTitle, newDescription, false, newDate);
-    setTodos(todos, {title: newTitle, description: newDescription, completed: false, date: newDate})
+    const subTodosCollection =  collection(db, 'users', user.uid, 'todos');
+    addDoc(subTodosCollection, { title: newTitle, description: newDescription, completed: false, date: newDate });
+
     formRef.current.reset();
     setDescription(null)
     setTitle(null)
@@ -77,23 +79,36 @@ function App() {
   } 
 
   useEffect(() => {
-    onSnapshot(usersCollectionRef, (snapshot) => {
-      setTodos(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const auth = getAuth();
+        const thisUser = auth.currentUser;
+        onSnapshot(collection(db, 'users', thisUser.uid, 'todos'), (snapshot) => {
+          setTodos(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+        })
+      }
     })
   }, [])
 
+
   const clearCompleted = async () => {
-    const q = query(usersCollectionRef , where('completed', '==', true));
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const q = query(collection(db, 'users', user.uid, 'todos'), where('completed', '==', true));
+    console.log(q)
     const dataSnap = await getDocs(q)
+    console.log(dataSnap)
     dataSnap.docs.forEach(doc => (deleteTask(doc.id)))
   }
 
   const toggleTodosDone = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
       setAlldone(!allDone);
 
       if(!allDone) {
 
-    const q = query(usersCollectionRef , where('completed', '!=', true));
+    const q = query(collection(db, 'users', user.uid, 'todos') , where('completed', '!=', true));
     const dataSnap = await getDocs(q)
     dataSnap.docs.forEach(doc => {
       updateTask(doc.id, {completed: true})
@@ -102,7 +117,7 @@ function App() {
   }
 
   if (allDone) {
-    const q = query(usersCollectionRef , where('completed', '==', true));
+    const q = query(collection(db, 'users', user.uid, 'todos'), where('completed', '==', true));
     const dataSnap = await getDocs(q)
     dataSnap.docs.forEach(doc => {
       updateTask(doc.id, {completed: false})

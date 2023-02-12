@@ -3,7 +3,9 @@ import DeleteTask from '../deletetask/deleteTask'
 import UpdateTask from '../updatetodo/updateTask'
 import { useState, useRef, useEffect } from 'react'
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
+import { updateDoc, doc } from 'firebase/firestore'
 import Timestamp from '../timestap/Time'
+import { getAuth } from 'firebase/auth';
 import { 
 TodoContainer, 
 TodoHeader,
@@ -18,9 +20,13 @@ export default function Todo({inputDialog, todo, newTitle, newDescription, setTi
   const myCheckbox = useRef()
 
 
-  const handleCheck = () => {
+  const handleCheck = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    console.log(todo.id)
     taskCompleted ? setCompleted(false) : setCompleted(true);
-    updateTask(todo.id, {title: todo.title, description: todo.description, completed: taskCompleted});
+    /* updateTask(todo.id, {title: todo.title, description: todo.description, completed: taskCompleted}); */
+    await updateDoc(doc(db, 'users', user.uid, 'todos', todo.id), {title: todo.title, description: todo.description, completed: taskCompleted});
   }
 
 

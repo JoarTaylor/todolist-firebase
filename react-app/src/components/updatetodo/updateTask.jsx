@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { FaEdit } from 'react-icons/fa';
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
 import { UpdateForm, FormContainer } from './updatestyle.js';
+import { updateDoc } from 'firebase/firestore';
 
 
 export default function UpdateTask({ newTitle, newDescription, setTitle, setDescription, todo}) {

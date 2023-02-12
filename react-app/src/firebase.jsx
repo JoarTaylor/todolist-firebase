@@ -18,23 +18,24 @@ import {
 
 
 
-/* apiKey: "AIzaSyB-Uhs8ba71383P3gWuRHS3Q5LPHHiGQ64",
-  authDomain: "fire-app-react.firebaseapp.com",
-  projectId: "fire-app-react",
-  storageBucket: "fire-app-react.appspot.com",
-  messagingSenderId: "859447417753",
-  appId: "1:859447417753:web:8bff5e738c8db762715108" */
 
-
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyACNZxTVm5wDle2t91sOMCJdTZinL-yuIE",
+//outlook
+/*   apiKey: "AIzaSyACNZxTVm5wDle2t91sOMCJdTZinL-yuIE",
   authDomain: "todolist-firebase-65525.firebaseapp.com",
   projectId: "todolist-firebase-65525",
   storageBucket: "todolist-firebase-65525.appspot.com",
   messagingSenderId: "734615195081",
-  appId: "1:734615195081:web:239547bbc59c2a5583ac18"
+  appId: "1:734615195081:web:239547bbc59c2a5583ac18" */
+
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyB-Uhs8ba71383P3gWuRHS3Q5LPHHiGQ64",
+  authDomain: "fire-app-react.firebaseapp.com",
+  projectId: "fire-app-react",
+  storageBucket: "fire-app-react.appspot.com",
+  messagingSenderId: "859447417753",
+  appId: "1:859447417753:web:8bff5e738c8db762715108"
 };
 
 
