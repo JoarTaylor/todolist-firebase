@@ -7,33 +7,46 @@ const UserNav = styled.nav`
     align-items: center;
     margin: 2vh;
 
-    div {
-        text-decoration: underline;
+    button {
+        display: ${({signedIn}) => signedIn? 'none': 'block'};
     }
 
-    h4 {
-        margin-left: auto;
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
     }
 `
 
-
-
 const StyledLink = styled(Link)`
-    margin-right: 1vw;
+    margin: 0.4rem;
+    font-size: larger;
     display: ${({signedIn}) => signedIn ? 'none' : 'block'};
-    
 `
 
 const SignInSignOut = styled.div`
     display: flex;
 
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+        }
+
     form {
-        display: ${({signedIn}) => signedIn ? 'none' : 'block'};
+        margin: 1rem;
+        display: ${({signedIn}) => signedIn ? 'none' : 'flex'};
+
+        @media screen and (max-width: 900px) {
+        flex-direction: column;
+        }
+
+        input {
+            margin: 0.5rem;
+        }
     }
 
     button {
         display: ${({signedIn}) => signedIn ? 'none' : 'block'};
     }
 `
+
+
 
 export { UserNav, StyledLink, SignInSignOut};

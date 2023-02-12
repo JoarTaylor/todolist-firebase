@@ -9,6 +9,8 @@ export default function Register() {
     const regEmailRef = useRef();
     const regPasswordRef = useRef();
     const [signedIn, setSignedIn] = useState(false)
+    const [registerError, setError] = useState({});
+    const errorRef = useRef()
 
     const register = async () => {
        try { 
@@ -16,8 +18,9 @@ export default function Register() {
         auth, 
         regEmailRef.current.value, 
         regPasswordRef.current.value)
+        setError('')
        } catch (error) {
-            console.log(error.message)
+            setError(error)
        }
        regEmailRef.current.value = ''
        regPasswordRef.current.value = ''
@@ -27,7 +30,6 @@ export default function Register() {
       onAuthStateChanged(auth, (currentUser) => {
         if(currentUser) {setSignedIn(true)}
         else {setSignedIn(false)};
-        console.log(signedIn)
       })
     })
 
@@ -35,10 +37,11 @@ export default function Register() {
     <>
     <SignInSignOut signedIn={signedIn}>
     <form>
-    <input ref={regEmailRef} type="text" placeholder='Email...'/>
-    <input ref={regPasswordRef} type="password" placeholder='Password...' />
+      <input ref={regEmailRef} type="text" placeholder='Email...'/>
+      <input ref={regPasswordRef} type="password" placeholder='Password...' />
     </form>
     <button signedIn={signedIn} onClick={register}>Register</button>
+    <div>{registerError?.message}</div>
     </SignInSignOut>
     </>
   )

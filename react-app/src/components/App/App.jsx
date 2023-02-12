@@ -8,7 +8,7 @@ import { UserNav, StyledLink } from '../navbar/navbarcss';
 import SignIn from '../signin/Signin';
 import Register from '../Register/register';
 import { auth } from '../../firebase.jsx'
-import { signOut } from 'firebase/auth';
+import { signOut, getAuth, deleteUser } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth'
 import { 
   ButtonContainer,
@@ -21,10 +21,7 @@ import {
   GlobalStyle
  } from './appstyles.js'
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
-
-
-
-
+import { async } from '@firebase/util';
 
 
 function App() {
@@ -41,6 +38,16 @@ function App() {
   const signout = async () => {
     signOut(auth)
 }
+
+  const deleteAccount = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    try {
+      const deleted = deleteUser(user)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   useEffect(() => {
@@ -104,8 +111,6 @@ function App() {
   }
 
  
-  
-
   return (
     <>
     <GlobalStyle/>
@@ -116,13 +121,14 @@ function App() {
           <StyledLink to="/">Home</StyledLink>
           <StyledLink signedIn={signedIn} to="/register">Register</StyledLink> 
           <StyledLink signedIn={signedIn} to="/signin">Sign in</StyledLink> 
-          <div onClick={signout}>{user ? 'SignOut': ''}</div>
+          <StyledLink onClick={signout}>{user? 'SignOut': ''}</StyledLink>
         <Routes>
           <Route path="/" ></Route>
           <Route path="/register"  element={<Register />}></Route>
           <Route path="/signin"  element={<SignIn />}></Route>
         </Routes>
         <h4>{user?.email}</h4>
+        <button signedIn={signedIn} onClick={deleteAccount}>Delete Account</button>
       </UserNav>
     </Router>
   

@@ -27,9 +27,9 @@ export default function SignIn() {
        auth, 
        emailRef.current.value, 
       passwordRef.current.value)
+      setError('')
       } catch (error) {
         setError(error)
-           console.log(error.message)
       }
       emailRef.current.value = ''
       passwordRef.current.value = ''
@@ -39,8 +39,8 @@ export default function SignIn() {
     <>
     <SignInSignOut signedIn={signedIn}>
     <form>
-    <input ref={emailRef} type="text" placeholder='Email...'/>
-    <input ref={passwordRef} type="password" placeholder='Password...' />
+      <input ref={emailRef} type="text" placeholder='Email...'/>
+      <input ref={passwordRef} type="password" placeholder='Password...' />
     </form>
     <button signedIn={signedIn} onClick={signIn}>Sign in</button>
     <div>{error?.message}</div>
