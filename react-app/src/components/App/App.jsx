@@ -2,8 +2,13 @@ import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import TodoList from '../todolist/TodoList'
 import { onSnapshot, query, where, getDocs } from 'firebase/firestore'
-import Navbar from '../navbar/Navbar'
+/* import Navbar from '../navbar/Navbar' */
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { UserNav, StyledLink } from '../navbar/navbarcss';
+import SignIn from '../signin/Signin';
+import Register from '../Register/register';
 import { auth } from '../../firebase.jsx'
+import { signOut } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth'
 import { 
   ButtonContainer,
@@ -31,6 +36,10 @@ function App() {
   const inputDialog = document.querySelector('.input-dialog');
   const [allDone, setAlldone] = useState(false);
   const [user, setUser] = useState({})
+
+  const signout = async () => {
+    signOut(auth)
+}
 
 
   useEffect(() => {
@@ -100,7 +109,19 @@ function App() {
     <AppContainer>
       <PageTitle>Your Todo-List</PageTitle>
       <h4>{user?.email}</h4>
-      <Navbar></Navbar>
+      <Router>
+    <UserNav>
+       {/*  <StyledLink to="/App">Home</StyledLink> */}
+        <StyledLink to="/register">Register</StyledLink> 
+        <StyledLink to="/signin">Sign in</StyledLink> 
+        <div onClick={signout}>{user ? 'SignOut': ''}</div>
+      <Routes>
+        <Route path="/register"  element={<Register />}></Route>
+        <Route path="/signin"  element={<SignIn />}></Route>
+       {/*  <Route path="/App"  element={<App />}></Route> */}
+      </Routes>
+    </UserNav>
+    </Router>
       <ButtonContainer>
         <button onClick={addTask}>Add todo</button>
         <button onClick={toggleTodosDone}>Mark all as done</button>
