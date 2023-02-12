@@ -36,6 +36,7 @@ function App() {
   const inputDialog = document.querySelector('.input-dialog');
   const [allDone, setAlldone] = useState(false);
   const [user, setUser] = useState({})
+  const [signedIn, setSignedIn] = useState(false)
 
   const signout = async () => {
     signOut(auth)
@@ -45,6 +46,8 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
+      if(currentUser) {setSignedIn(true)}
+      else {setSignedIn(false)};
     })
   })
 
@@ -108,20 +111,21 @@ function App() {
     <GlobalStyle/>
     <AppContainer>
       <PageTitle>Your Todo-List</PageTitle>
-      <h4>{user?.email}</h4>
-      <Router>
-    <UserNav>
-        <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/register">Register</StyledLink> 
-        <StyledLink to="/signin">Sign in</StyledLink> 
-        <div onClick={signout}>{user ? 'SignOut': ''}</div>
-      <Routes>
-        <Route path="/register"  element={<Register />}></Route>
-        <Route path="/signin"  element={<SignIn />}></Route>
-        <Route path="/" ></Route>
-      </Routes>
-    </UserNav>
+    <Router>
+      <UserNav>
+          <StyledLink to="/">Home</StyledLink>
+          <StyledLink signedIn={signedIn} to="/register">Register</StyledLink> 
+          <StyledLink signedIn={signedIn} to="/signin">Sign in</StyledLink> 
+          <div onClick={signout}>{user ? 'SignOut': ''}</div>
+        <Routes>
+          <Route path="/" ></Route>
+          <Route path="/register"  element={<Register />}></Route>
+          <Route path="/signin"  element={<SignIn />}></Route>
+        </Routes>
+        <h4>{user?.email}</h4>
+      </UserNav>
     </Router>
+  
       <ButtonContainer>
         <button onClick={addTask}>Add todo</button>
         <button onClick={toggleTodosDone}>Mark all as done</button>
