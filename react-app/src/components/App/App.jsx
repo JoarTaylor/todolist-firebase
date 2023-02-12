@@ -111,14 +111,14 @@ function App() {
       <h4>{user?.email}</h4>
       <Router>
     <UserNav>
-       {/*  <StyledLink to="/App">Home</StyledLink> */}
+        <StyledLink to="/">Home</StyledLink>
         <StyledLink to="/register">Register</StyledLink> 
         <StyledLink to="/signin">Sign in</StyledLink> 
         <div onClick={signout}>{user ? 'SignOut': ''}</div>
       <Routes>
         <Route path="/register"  element={<Register />}></Route>
         <Route path="/signin"  element={<SignIn />}></Route>
-       {/*  <Route path="/App"  element={<App />}></Route> */}
+        <Route path="/" ></Route>
       </Routes>
     </UserNav>
     </Router>
