@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import TodoList from '../todolist/TodoList'
-import { onSnapshot, query, where, getDocs, setDoc, doc, addDoc, collection } from 'firebase/firestore'
+import { onSnapshot, query, where, getDocs, setDoc, doc, addDoc, collection, updateDoc } from 'firebase/firestore'
 /* import Navbar from '../navbar/Navbar' */
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { UserNav, StyledLink } from '../navbar/navbarcss';
@@ -11,10 +11,10 @@ import { auth } from '../../firebase.jsx'
 import { signOut, getAuth, deleteUser, onAuthStateChanged  } from 'firebase/auth';
 import { 
   ButtonContainer,
-   InputDialog, 
-   PageTitle, 
-   TodosLeft, 
-   DialogContainer,
+  InputDialog, 
+  PageTitle, 
+  TodosLeft, 
+  DialogContainer,
   AppContainer,
   TodoListContainer,
   GlobalStyle
@@ -65,13 +65,11 @@ function App() {
       alert('Title must be filled out')
       return
     }
-
     const auth = getAuth();
     const user = auth.currentUser;
     const newDate = Date.now();
     const subTodosCollection =  collection(db, 'users', user.uid, 'todos');
     addDoc(subTodosCollection, { title: newTitle, description: newDescription, completed: false, date: newDate });
-
     formRef.current.reset();
     setDescription(null)
     setTitle(null)
@@ -102,25 +100,23 @@ function App() {
   }
 
   const toggleTodosDone = async () => {
+    setAlldone(!allDone);
     const auth = getAuth();
     const user = auth.currentUser;
-      setAlldone(!allDone);
-
-      if(!allDone) {
-
+    if(!allDone) {
     const q = query(collection(db, 'users', user.uid, 'todos') , where('completed', '!=', true));
     const dataSnap = await getDocs(q)
-    dataSnap.docs.forEach(doc => {
-      updateTask(doc.id, {completed: true})
+    console.log(dataSnap)
+    dataSnap.docs.forEach(thisDoc => {
+      updateDoc(doc(db, 'users', user.uid, 'todos', thisDoc.id), {completed: true})
     })
-
   }
 
   if (allDone) {
     const q = query(collection(db, 'users', user.uid, 'todos'), where('completed', '==', true));
     const dataSnap = await getDocs(q)
-    dataSnap.docs.forEach(doc => {
-      updateTask(doc.id, {completed: false})
+    dataSnap.docs.forEach(thisDoc => {
+      updateDoc(doc(db, 'users', user.uid, 'todos', thisDoc.id), {completed: false})
     })
   }
   }

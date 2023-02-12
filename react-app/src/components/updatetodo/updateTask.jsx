@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import { FaEdit } from 'react-icons/fa';
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
 import { UpdateForm, FormContainer } from './updatestyle.js';
-import { updateDoc } from 'firebase/firestore';
-
+import { updateDoc, doc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 export default function UpdateTask({ newTitle, newDescription, setTitle, setDescription, todo}) {
 
@@ -22,23 +22,25 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
         setShowing(!isShowing)
     }
 
-    const submitUpdate = () => {
+    const submitUpdate = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
         const updatedTime = Date.now();
         setShowing(!isShowing)
         let title = null;
         let desc = null;
         if(newTitle == null && newDescription != null) {
             title = todo.title;
-            updateTask(todo.id, {title: title, description: newDescription, completed: todo.completed, date: updatedTime})
+            updateDoc(doc(db, 'users', user.uid, 'todos', todo.id), {title: title, description: newDescription, completed: todo.completed, date: updatedTime})
         } else if (newDescription == null && newTitle != null) {
             desc = todo.description; 
-            updateTask(todo.id, {title: newTitle, description: desc, completed: todo.completed, date: updatedTime})
+            updateDoc(doc(db, 'users', user.uid, 'todos', todo.id), {title: newTitle, description: desc, completed: todo.completed, date: updatedTime})
         } else if(newDescription == null && newTitle == null) {
-            updateTask(todo.id, {title: todo.title, description: todo.description, completed: todo.completed})
+            updateDoc(doc(db, 'users', user.uid, 'todos', todo.id), {title: todo.title, description: todo.description, completed: todo.completed})
             return
         }
         else {
-            updateTask(todo.id, {title: newTitle, description: newDescription, completed: todo.completed, date: updatedTime})
+            updateDoc(doc(db, 'users', user.uid, 'todos', todo.id), {title: newTitle, description: newDescription, completed: todo.completed, date: updatedTime})
         }
         updateFormRef.current.reset();
         setDescription(null)
