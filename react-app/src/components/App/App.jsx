@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import TodoList from '../todolist/TodoList'
-import { onSnapshot, query, where, getDocs, setDoc, doc, addDoc, collection, updateDoc } from 'firebase/firestore'
+import { onSnapshot, query, where, getDocs, setDoc, doc, addDoc, collection, updateDoc, deleteDoc } from 'firebase/firestore'
 /* import Navbar from '../navbar/Navbar' */
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { UserNav, StyledLink } from '../navbar/navbarcss';
@@ -96,7 +96,7 @@ function App() {
     console.log(q)
     const dataSnap = await getDocs(q)
     console.log(dataSnap)
-    dataSnap.docs.forEach(doc => (deleteTask(doc.id)))
+    dataSnap.docs.forEach(thisDoc => deleteDoc(doc(db, 'users', user.uid, 'todos', thisDoc.id)))
   }
 
   const toggleTodosDone = async () => {
