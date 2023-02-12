@@ -1,12 +1,32 @@
 import styled from "styled-components";
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+    body {
+        margin: 0;
+    }
+`
 
 const AppContainer = styled.div`
     font-family: Arial, Helvetica, sans-serif;
 `
 
+const TodoListContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    @media screen and (max-width: 900px) {
+        display: block;
+    }
+`
+
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: center;
+
+    @media screen and (max-width: 900px) {
+        flex-direction: column;
+    }
 
     button {
   background-color: gray; 
@@ -23,8 +43,7 @@ const ButtonContainer = styled.div`
     &:hover {
         background-color: black;
     }
-
-    }
+}
 `
 
 const InputDialog = styled.dialog`
@@ -32,6 +51,10 @@ const InputDialog = styled.dialog`
     border-radius: 10px;
     border: none;
     background-color: #cecdcd;
+
+    @media screen and (max-width: 900px) {
+        width: 70vw;
+    }
 
     &::backdrop {
         background-color: white;
@@ -90,6 +113,10 @@ const InputDialog = styled.dialog`
 
 const PageTitle = styled.h1`
     text-align: center;
+    padding: 2rem;
+    background-color: gray;
+    color: white;
+    margin: 0;
 `
 
 const TodosLeft = styled.h3`
@@ -107,5 +134,7 @@ export {
     PageTitle, 
     TodosLeft, 
     DialogContainer, 
-    AppContainer 
+    AppContainer,
+    TodoListContainer,
+    GlobalStyle
 }

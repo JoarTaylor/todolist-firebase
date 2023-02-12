@@ -2,15 +2,21 @@ import { useState, useRef, useEffect } from 'react'
 import React from 'react'
 import TodoList from '../todolist/TodoList'
 import { onSnapshot, query, where, getDocs } from 'firebase/firestore'
+import Navbar from '../navbar/Navbar'
+import { auth } from '../../firebase.jsx'
+import { onAuthStateChanged } from 'firebase/auth'
 import { 
   ButtonContainer,
    InputDialog, 
    PageTitle, 
    TodosLeft, 
    DialogContainer,
-  AppContainer
+  AppContainer,
+  TodoListContainer,
+  GlobalStyle
  } from './appstyles.js'
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
+
 
 
 
@@ -24,6 +30,14 @@ function App() {
   const formRef = useRef();
   const inputDialog = document.querySelector('.input-dialog');
   const [allDone, setAlldone] = useState(false);
+  const [user, setUser] = useState({})
+
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+  })
 
   const addTask = () => {
     inputDialog.showModal()
@@ -77,31 +91,39 @@ function App() {
   }
   }
 
+ 
+  
+
   return (
     <>
+    <GlobalStyle/>
     <AppContainer>
-    <PageTitle>Your Todo-List</PageTitle>
-    <ButtonContainer>
-      <button onClick={addTask}>Add todo</button>
-      <button onClick={toggleTodosDone}>Mark all as done</button>
-      <button onClick={clearCompleted}>Clear done Todos</button>
-    </ButtonContainer>
-    <TodosLeft>Todos left to do: {todos.filter(todo => !todo.completed).length}</TodosLeft>
-    <DialogContainer>
-      <InputDialog className='input-dialog'>
-        <div>
-          <form ref={formRef}>
-              <input placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>
-              <textarea placeholder='Description...' type="text" onChange={(event) => {setDescription(event.target.value)}}/>
-          </form>
+      <PageTitle>Your Todo-List</PageTitle>
+      <h4>{user?.email}</h4>
+      <Navbar></Navbar>
+      <ButtonContainer>
+        <button onClick={addTask}>Add todo</button>
+        <button onClick={toggleTodosDone}>Mark all as done</button>
+        <button onClick={clearCompleted}>Clear done Todos</button>
+      </ButtonContainer>
+      <TodosLeft>Todos left to do: {todos.filter(todo => !todo.completed).length}</TodosLeft>
+      <DialogContainer>
+        <InputDialog className='input-dialog'>
           <div>
-            <button onClick={submitTask}>Add</button>
-            <button onClick={() => {inputDialog.close()}}>Cancel</button>
+            <form ref={formRef}>
+                <input placeholder='Title...' type="text" onChange={(event) => {setTitle(event.target.value)}}/>
+                <textarea placeholder='Description...' type="text" onChange={(event) => {setDescription(event.target.value)}}/>
+            </form>
+            <div>
+              <button onClick={submitTask}>Add</button>
+              <button onClick={() => {inputDialog.close()}}>Cancel</button>
+            </div>
           </div>
-        </div>
-      </InputDialog>
-    </DialogContainer>
-    <TodoList inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle}newDescription={newDescription} setTitle={setTitle} setDescription={setDescription} todos={todos} />
+        </InputDialog>
+      </DialogContainer>
+      <TodoListContainer>
+      <TodoList inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle}newDescription={newDescription} setTitle={setTitle} setDescription={setDescription} todos={todos} />
+      </TodoListContainer>
     </AppContainer>
     </>
   )

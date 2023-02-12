@@ -9,6 +9,10 @@ const TodoContainer = styled.div`
     margin: 2vh;
     padding: 1rem;
     border-radius: 10px;
+
+    @media screen and (max-width: 900px) {
+        width: 80vw;
+    }
 `
 
 const TodoHeader = styled.div`
