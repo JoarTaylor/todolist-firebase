@@ -137,7 +137,7 @@ function App() {
             <StyledLink to="/">Home</StyledLink>
             <StyledLink signedIn={signedIn} to="/register">Register</StyledLink> 
             <StyledLink signedIn={signedIn} to="/signin">Sign in</StyledLink> 
-            <StyledLink onClick={signout}>{user? 'SignOut': ''}</StyledLink>
+            <StyledLink to="/signin"  onClick={signout}>{user? 'Sign Out': ''}</StyledLink>
             <StyledLink to="/" signedIn={!signedIn} onClick={deleteAccount}>Delete Account</StyledLink>
           </div>
         <Routes>
