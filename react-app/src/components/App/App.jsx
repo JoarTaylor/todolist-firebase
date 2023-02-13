@@ -4,7 +4,7 @@ import TodoList from '../todolist/TodoList'
 import { onSnapshot, query, where, getDocs, setDoc, doc, addDoc, collection, updateDoc, deleteDoc } from 'firebase/firestore'
 /* import Navbar from '../navbar/Navbar' */
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { UserNav, StyledLink } from '../navbar/navbarcss';
+import { UserNav, StyledLink, DeleteAccEl} from '../navbar/navbarcss';
 import SignIn from '../signin/Signin';
 import Register from '../Register/register';
 import { auth } from '../../firebase.jsx'
@@ -139,7 +139,7 @@ function App() {
           <Route path="/signin"  element={<SignIn />}></Route>
         </Routes>
         <h4>{user?.email}</h4>
-        <button signedIn={signedIn} onClick={deleteAccount}>Delete Account</button>
+        <DeleteAccEl signedIn={signedIn} onClick={deleteAccount}>Delete Account</DeleteAccEl>
       </UserNav>
     </Router>
   

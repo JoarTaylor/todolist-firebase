@@ -7,13 +7,13 @@ const UserNav = styled.nav`
     align-items: center;
     margin: 2vh;
 
-    button {
-        display: ${({signedIn}) => signedIn? 'none': 'block'};
-    }
-
     @media screen and (max-width: 900px) {
         flex-direction: column;
     }
+`
+
+const DeleteAccEl = styled.button`
+    display: ${({signedIn}) => signedIn ? 'block': 'none'};
 `
 
 const StyledLink = styled(Link)`
@@ -49,4 +49,4 @@ const SignInSignOut = styled.div`
 
 
 
-export { UserNav, StyledLink, SignInSignOut};
+export { UserNav, StyledLink, SignInSignOut, DeleteAccEl};
