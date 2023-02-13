@@ -21,7 +21,7 @@ const TodoListContainer = styled.div`
 `
 
 const ButtonContainer = styled.div`
-    display: flex;
+    display: ${({signedIn}) => signedIn ? 'flex' : 'none'};
     justify-content: center;
 
     @media screen and (max-width: 900px) {
@@ -29,17 +29,16 @@ const ButtonContainer = styled.div`
     }
 
     button {
-  background-color: gray; 
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 1rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-
+        background-color: gray; 
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        margin: 1rem;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        
     &:hover {
         background-color: black;
     }
@@ -121,6 +120,7 @@ const PageTitle = styled.h1`
 
 const TodosLeft = styled.h3`
     text-align: center;
+    display: ${({signedIn}) => signedIn ? 'none' : 'block'};
 `
 
 const DialogContainer = styled.div`

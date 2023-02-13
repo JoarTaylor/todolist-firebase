@@ -4,7 +4,7 @@ import TodoList from '../todolist/TodoList'
 import { onSnapshot, query, where, getDocs, setDoc, doc, addDoc, collection, updateDoc, deleteDoc } from 'firebase/firestore'
 /* import Navbar from '../navbar/Navbar' */
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { UserNav, StyledLink, DeleteAccEl} from '../navbar/navbarcss';
+import { UserNav, StyledLink} from '../navbar/navbarcss';
 import SignIn from '../signin/Signin';
 import Register from '../Register/register';
 import { auth } from '../../firebase.jsx'
@@ -35,6 +35,7 @@ function App() {
 
   const signout = async () => {
     signOut(auth)
+    setTodos([])
 }
 
   const deleteAccount = async () => {
@@ -45,6 +46,7 @@ function App() {
     } catch (error) {
       console.log(error)
     }
+    setTodos([])
   }
 
 
@@ -57,7 +59,9 @@ function App() {
   })
 
   const addTask = () => {
-    inputDialog.showModal()
+    if(signedIn) {
+      inputDialog.showModal()
+    }
   }
  
   const submitTask = () => {
@@ -129,26 +133,27 @@ function App() {
       <PageTitle>Your Todo-List</PageTitle>
     <Router>
       <UserNav>
-          <StyledLink to="/">Home</StyledLink>
-          <StyledLink signedIn={signedIn} to="/register">Register</StyledLink> 
-          <StyledLink signedIn={signedIn} to="/signin">Sign in</StyledLink> 
-          <StyledLink onClick={signout}>{user? 'SignOut': ''}</StyledLink>
+          <div>
+            <StyledLink to="/">Home</StyledLink>
+            <StyledLink signedIn={signedIn} to="/register">Register</StyledLink> 
+            <StyledLink signedIn={signedIn} to="/signin">Sign in</StyledLink> 
+            <StyledLink onClick={signout}>{user? 'SignOut': ''}</StyledLink>
+            <StyledLink to="/" signedIn={!signedIn} onClick={deleteAccount}>Delete Account</StyledLink>
+          </div>
         <Routes>
           <Route path="/" ></Route>
           <Route path="/register"  element={<Register />}></Route>
           <Route path="/signin"  element={<SignIn />}></Route>
         </Routes>
         <h4>{user?.email}</h4>
-        <DeleteAccEl signedIn={signedIn} onClick={deleteAccount}>Delete Account</DeleteAccEl>
       </UserNav>
     </Router>
-  
-      <ButtonContainer>
+      <ButtonContainer signedIn={signedIn}>
         <button onClick={addTask}>Add todo</button>
         <button onClick={toggleTodosDone}>Mark all as done</button>
         <button onClick={clearCompleted}>Clear done Todos</button>
       </ButtonContainer>
-      <TodosLeft>Todos left to do: {todos.filter(todo => !todo.completed).length}</TodosLeft>
+      <TodosLeft signedIn={!signedIn}>Todos left to do: {todos.filter(todo => !todo.completed).length}</TodosLeft>
       <DialogContainer>
         <InputDialog className='input-dialog'>
           <div>

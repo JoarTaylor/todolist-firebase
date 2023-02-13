@@ -19,12 +19,13 @@ export default function Register() {
           .then((userCredential) => {
             // Signed in 
             setError('')
+            const newDate = Date.now();
             const user = userCredential.user;
             console.log('id: ', user.uid)
             const docRef = doc(db, 'users', user.uid);
             const collectionRef = collection(docRef, 'todos');
             addDoc(collectionRef, {
-              title: '', description: '', date: '', completed: false
+              title: 'Welcome! Delete this if you want', date: newDate, completed: false, description: ''
             })
           })
           .catch((error) => {
