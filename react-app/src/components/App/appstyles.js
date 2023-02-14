@@ -12,8 +12,7 @@ const AppContainer = styled.div`
 `
 
 const TodoListContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    
 
     @media screen and (max-width: 900px) {
         display: block;

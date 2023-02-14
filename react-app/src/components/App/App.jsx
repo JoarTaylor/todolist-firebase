@@ -65,10 +65,10 @@ function App() {
   }
  
   const submitTask = () => {
-    if(newTitle == null) {
-      alert('Title must be filled out')
+    if(newTitle == null || newDescription == null) {
+      alert('All fields must be filled out')
       return
-    }
+    } 
     const auth = getAuth();
     const user = auth.currentUser;
     const newDate = Date.now();
@@ -134,7 +134,6 @@ function App() {
     <Router>
       <UserNav>
           <div>
-            <StyledLink to="/">Home</StyledLink>
             <StyledLink signedIn={signedIn} to="/register">Register</StyledLink> 
             <StyledLink signedIn={signedIn} to="/signin">Sign in</StyledLink> 
             <StyledLink to="/signin"  onClick={signout}>{user? 'Sign Out': ''}</StyledLink>

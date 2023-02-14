@@ -10,7 +10,8 @@ import {
 TodoContainer, 
 TodoHeader,
 ContentWrapper,
-TodoBtns
+TodoBtns,
+LeftTodoNav
 } from './todocss'
 
 
@@ -31,16 +32,18 @@ export default function Todo({inputDialog, todo, newTitle, newDescription, setTi
   return (
     <TodoContainer>
       <TodoHeader>
+        <LeftTodoNav>
+          <input ref={myCheckbox} type="checkbox" checked={todo.completed} onChange={handleCheck}/> 
           <div>{todo.title}</div>
-          <TodoBtns>
+        </LeftTodoNav>
+        <TodoBtns>
             <Timestamp todo={todo}></Timestamp>
-            <input ref={myCheckbox} type="checkbox" checked={todo.completed} onChange={handleCheck}/>
             <DeleteTask todo={todo}/>
-            <UpdateTask inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle} newDescription={newDescription} todo={todo} setTitle={setTitle} setDescription={setDescription}/>
-          </TodoBtns>
+        </TodoBtns>
       </TodoHeader>
       <ContentWrapper>
         <div>{todo.description}</div>
+        <UpdateTask inputDialog={inputDialog} formRef={formRef} newTitle = {newTitle} newDescription={newDescription} todo={todo} setTitle={setTitle} setDescription={setDescription}/>
       </ContentWrapper>
     </TodoContainer>
   )

@@ -9,4 +9,14 @@ const FormContainer = styled.div`
     display: ${({isShowing}) => isShowing ? 'block' : 'none'};
 `
 
-export { UpdateForm, FormContainer }
+const EditBtn = styled.div`
+        align-self: flex-end;
+        font-size: larger;
+
+        &:hover {
+            color: gray;
+        }
+    
+`
+
+export { UpdateForm, FormContainer, EditBtn }

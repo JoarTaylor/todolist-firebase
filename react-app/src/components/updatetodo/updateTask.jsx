@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { FaEdit } from 'react-icons/fa';
 import {app, db, saveTask, onGetTasks, deleteTask, getTask, updateTask, getTasks, usersCollectionRef} from '../../firebase.jsx'
-import { UpdateForm, FormContainer } from './updatestyle.js';
+import { UpdateForm, FormContainer, EditBtn } from './updatestyle.js';
 import { updateDoc, doc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
@@ -49,7 +49,6 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
 
   return (
     <>
-    <div onClick={openUpdateDialog}><FaEdit/></div>
     <FormContainer isShowing={isShowing}>
           <UpdateForm ref={updateFormRef} action="">
               <input ref={titleRef} type="text" onChange={(event) => {setTitle(event.target.value)}}/>
@@ -58,6 +57,7 @@ export default function UpdateTask({ newTitle, newDescription, setTitle, setDesc
           <button onClick={submitUpdate}>Submit</button>
           <button onClick={cancelUpdate}>Cancel</button>
     </FormContainer>
+    <EditBtn onClick={openUpdateDialog}><FaEdit/></EditBtn>
     </>
   )
 }

@@ -1,11 +1,10 @@
 import styled from "styled-components"
 
 const TodoContainer = styled.div`
-    width: 40vw;
-    min-height: 20vh;
+    width: 36vw;
     display: flex;
     flex-direction: column;
-    background-color: #cecdcd;
+    background-color: #C5E1E5;
     margin: 2vh;
     padding: 1rem;
     border-radius: 10px;
@@ -21,10 +20,20 @@ const TodoHeader = styled.div`
     justify-content: space-between;
 `
 
+const LeftTodoNav = styled.div`
+    display: flex;
+    div {
+        font-weight: bold;
+    }
+`
+
 const ContentWrapper = styled.div`
     display: flex;
-    background-color: #eeecec;
+    padding: 0.5rem;
     height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px;
 `
 
 const TodoBtns = styled.div`
@@ -34,4 +43,4 @@ const TodoBtns = styled.div`
 
 `
 
-export {TodoContainer, TodoHeader, ContentWrapper, TodoBtns}
+export {TodoContainer, TodoHeader, ContentWrapper, TodoBtns, LeftTodoNav}
